@@ -41,7 +41,7 @@ I ran an `nmap` scan and found ports 22, 53 and 80 open, with Apache serving PHP
 nmap -sC -sV -p- 10.112.190.205 -oA recruit
 ```
 
-![](/Users/shoham/Library/Application%20Support/marktext/images/2026-06-07-06-13-01-image.png)
+![](Screenshots/2026-06-07-06-13-01-image.png)
 
 Confirmed the target was running PHP via an API link referenced on the homepage.
 
