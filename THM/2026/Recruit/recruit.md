@@ -41,11 +41,19 @@ I ran an `nmap` scan and found ports 22, 53 and 80 open, with Apache serving PHP
 nmap -sC -sV -p- 10.112.190.205 -oA recruit
 ```
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-06-13-01-image.png)
 
 Confirmed the target was running PHP via an API link referenced on the homepage.
 
 ![](Screenshots/2026-06-07-06-24-23-image.png) 
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-06-13-01-image.png)
+
+Confirmed the target was running PHP via an API link referenced on the homepage.
+
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-06-24-23-image.png) 
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 From there I ran directory enumeration to discover additional PHP pages.
 
@@ -54,7 +62,11 @@ gobuster dir -u http://10.112.190.205 \
 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -x .php
 ```
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-07-44-24-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-07-44-24-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 This revealed several PHP endpoints – `phpmyadmin.php`, `config.php`, `api.php` and a `/mail/` directory, with `phpmyadmin.php` standing out as a potential login point and `/mail/` worth exploring further.
 
@@ -64,25 +76,43 @@ Also checked `sitemap.xml` as a cross-reference, but it largely overlapped with 
 
 Further inspection of `mail.log` revealed that the `hr` account's credentials were stored in `config.php`.
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-10-05-37-image.png)
 
 By targeting the `cv` parameter on the `file.php` endpoint with a `file://` wrapper (`file.php?cv=file:///var/www/html/config.php`) allowed arbitrary file reads from the filesystem – a Local File Inclusion (LFI) vulnerability. This let me read `config.php` directly, which stored the `hr` account's password in plain text.
 
 ![](Screenshots/2026-06-07-10-09-06-image.png)  
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-10-05-37-image.png)
+
+By targeting the `cv` parameter on the `file.php` endpoint with a `file://` wrapper (`file.php?cv=file:///var/www/html/config.php`) allowed arbitrary file reads from the filesystem – a Local File Inclusion (LFI) vulnerability. This let me read `config.php` directly, which stored the `hr` account's password in plain text.
+
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-10-09-06-image.png)  
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 ### Step 3 — Gaining Access
 
 I logged in using the `hr` credentials recovered from `config.php` and captured the user flag.
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-11-30-46-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-11-30-46-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 ### Step 4 — Exploration of the Dashboard
 
 After logging in as `hr`, I was presented with a dashboard featuring a search bar. Capturing the search request in Burp Suite let me isolate the `search` parameter, and injecting a single quote (`'`) triggered a query syntax error, confirming a SQL injection vulnerability.
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-11-36-53-image.png)
 
 ![](Screenshots/2026-06-07-11-40-30-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-11-36-53-image.png)
+
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-11-40-30-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 Using the captured request in combination with sqlmap I was able to discover the databases of the web application.
 
@@ -90,7 +120,11 @@ Using the captured request in combination with sqlmap I was able to discover the
 sqlmap -r req.txt -dbs
 ```
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-11-52-02-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-11-52-02-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 Of the six databases returned, `recruit_db` stood out as the application's primary database – the natural next target, while `phpmyadmin` suggests a potential secondary avenue worth investigating.
 
@@ -102,7 +136,11 @@ With access to `recruit_db` database confirmed, I enumerated its tables to ident
 sqlmap -r req.txt -D recruit_db --tables
 ```
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-12-11-25-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-12-11-25-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 Among the tables returned, `users` stood out as likely to contain account data, making it the natural next target.
 
@@ -110,13 +148,21 @@ Among the tables returned, `users` stood out as likely to contain account data, 
 sqlmap -r req.txt -D recruit_db -T users --dump
 ```
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-12-12-29-image.png)
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-12-12-29-image.png)
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 ### Step 6 — Privilege Escalation
 
 This revealed admin account's username and password, stored in plain text, which I used to log in and capture the final flag.
 
+<<<<<<< HEAD
 ![](Screenshots/2026-06-07-12-13-00-image.png)  
+=======
+![](/Users/shoham/Dropbox/Shared%20VM/Labs/Writeups/THM/2026/Recruit/Screenshots/2026-06-07-12-13-00-image.png)  
+>>>>>>> abe10ef (THM recruit - challenge writeup)
 
 ---
 
