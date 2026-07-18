@@ -1,8 +1,8 @@
 # Support — Challenge Write-Up
 
 > **Category:** Web / Linux
-> **Difficulty:** Easy–Medium
-> **Author:** Shoham
+> **Difficulty:** Medium
+> **Author:** Shoham Houta
 > **Date:** 2026-07-18
 
 ---
