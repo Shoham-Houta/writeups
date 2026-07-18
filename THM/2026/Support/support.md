@@ -1,8 +1,8 @@
 # Support — Challenge Write-Up
 
 > **Category:** Web / Linux
-> **Difficulty:** Easy–Medium
-> **Author:** Shoham
+> **Difficulty:** Medium
+> **Author:** Shoham Houta
 > **Date:** 2026-07-18
 
 ---
@@ -73,7 +73,7 @@ hydra -l help@support.thm -P /usr/share/wordlists/rockyou.txt 10.112.182.177 \
   http-post-form "/:email=^USER^&password=^PASS^:F=Invalid credentials"
 ```
 
-![](Screenshots/Hydra_help_support_thm_user.png)
+![](Screenshots/Hydra_help@support.thm_user.png)
 
 Hydra reported one valid password for `help@support.thm` (masked above). Logging in with it landed me on the Support Dashboard as **"Helpdesk User"** — a low-privileged account showing only a "Ticket management system" card, with no admin functionality visible.
 
@@ -99,7 +99,7 @@ The cookie was simply `md5("false")`. So the application decides whether you are
 
 The View API panel pointed at a user endpoint. Requesting `/user/1` returned JSON directly, with no additional authorization:
 
-![](Screenshots/API_response_Admin_email.png)
+![](Screenshots/API_response+Admin_email.png)
 
 This disclosed `email: "specialadmin@support.thm"`, `2FA: false`, and `admin: true`. I now had the **real administrator's email** — the account worth targeting — and confirmation that it had no second factor standing in the way. What I still lacked was its password.
 
@@ -111,7 +111,7 @@ This disclosed `email: "specialadmin@support.thm"`, `2FA: false`, and `admin: tr
 http://10.112.182.177/dashboard.php?skin=../config
 ```
 
-![](Screenshots/LFI_admin_password.png)
+![](Screenshots/LFI+admin_password.png)
 
 The traversal pulled `config.php` into the page, and its contents surfaced in the rendered source (visible in the Inspector as a commented block). That block exposed a PHP assignment:
 
@@ -163,7 +163,7 @@ ls -l /home/ubuntu/user.txt
 cat /home/ubuntu/user.txt
 ```
 
-![](Screenshots/user_flag_location_viewing.png)
+![](Screenshots/user_flag_location&viewing.png)
 
 The flag lived at `/home/ubuntu/user.txt` (contents masked).
 

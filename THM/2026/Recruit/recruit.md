@@ -2,7 +2,7 @@
 
 > **Category:** Web 
 > **Difficulty:** Medium 
-> **Author:** Shoham 
+> **Author:** Shoham Houta
 > **Date:** 2026-06-07
 
 ---
